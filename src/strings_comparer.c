@@ -98,12 +98,6 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    FILE *in_file = fopen(argv[2], "r");
-    if(in_file == NULL) {
-        error("Error with fopen() of input file\n");
-        return -1;
-    }
-
     sorting_algorithm_t sorting_algorithm = get_sorting_algorithm(argv[4]);
     if(sorting_algorithm == NULL) {
         error("Not valid sorting algorithm");
@@ -132,7 +126,14 @@ int main(int argc, char **argv) {
         }
     }
 
+    FILE *in_file = fopen(argv[2], "r");
+    if(in_file == NULL) {
+        error("Error with fopen() of input file\n");
+        return -1;
+    }
+
     if(get_strings_from_file(in_file, MAX_INPUT_STRING_SIZE, strings_count, strings_array) != 0) {
+        fclose(in_file);
         free_strings_array(strings_array, strings_count);
         error("Error with reading file\n");
         return -1;
@@ -142,12 +143,15 @@ int main(int argc, char **argv) {
 
     FILE* out_file = fopen(argv[3], "w");
     if(out_file == NULL) {
+        fclose(in_file);
         free_strings_array(strings_array, strings_count);
         error("Error with fopen() of output file\n");
         return -1;
     }
 
     if(put_strings_in_file(out_file, strings_count, strings_array) != 0) {
+        fclose(in_file);
+        fclose(out_file);
         free_strings_array(strings_array, strings_count);
         error("Error with writing file\n");
         return -1;
