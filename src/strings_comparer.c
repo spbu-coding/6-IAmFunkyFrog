@@ -68,7 +68,7 @@ int get_strings_from_file(FILE* file, size_t max_string_length, size_t strings_c
         return 0;
 }
 
-int put_strings_in_file(FILE* file, size_t max_string_length, size_t strings_count, strings_array_t strings_array) {
+int put_strings_in_file(FILE* file, size_t strings_count, strings_array_t strings_array) {
     for(size_t i = 0; i < strings_count; i++) {
         if(fputs(strings_array[i], file) == EOF) {
             error("Error with fputs() in output file\n");
