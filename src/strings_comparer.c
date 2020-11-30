@@ -147,7 +147,7 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    if(put_strings_in_file(out_file, MAX_INPUT_STRING_SIZE, strings_count, strings_array) != 0) {
+    if(put_strings_in_file(out_file, strings_count, strings_array) != 0) {
         free_strings_array(strings_array, strings_count);
         error("Error with writing file\n");
         return -1;
