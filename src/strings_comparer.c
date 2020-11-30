@@ -8,11 +8,11 @@
 typedef void (*sorting_algorithm_t)(strings_array_t, array_size_t, comparator_func_t);
 
 int asc(const char *str1, const char *str2) {
-    return strcmp(str1, str2);
+    return -strcmp(str1, str2);
 }
 
 int des(const char *str1, const char *str2) {
-    return -strcmp(str1, str2);
+    return strcmp(str1, str2);
 }
 
 void free_strings_array(strings_array_t strings_array, size_t size) {
