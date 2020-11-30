@@ -128,6 +128,7 @@ int main(int argc, char **argv) {
 
     FILE *in_file = fopen(argv[2], "r");
     if(in_file == NULL) {
+        free_strings_array(strings_array, strings_count);
         error("Error with fopen() of input file\n");
         return -1;
     }
