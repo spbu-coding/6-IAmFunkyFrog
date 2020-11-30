@@ -48,12 +48,6 @@ static unsigned pop(query *q) {
 
 //end
 
-static void free_strings_array(strings_array_t array, array_size_t size) {
-    for (array_size_t i = 0; i < size; i++)
-        free(array[i]);
-    free(array);
-}
-
 static void swap(char **first, char **second) {
     char *tmp = *first;
     *first = *second;
@@ -150,7 +144,7 @@ void quick(strings_array_t array, array_size_t size, comparator_func_t comparato
         }
     }
 
-    if (r >= 0)
+    if (r > 0)
         quick(array, r + 1, comparator);
     if (l < size)
         quick(array + l, size - l, comparator);
