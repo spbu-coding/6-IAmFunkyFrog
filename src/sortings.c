@@ -62,6 +62,9 @@ static array_size_t min(array_size_t first, array_size_t second) {
 }
 
 void bubble(strings_array_t array, array_size_t size, comparator_func_t comparator) {
+    if(size <= 1)
+        return;
+
     for (array_size_t i = 0; i < size - 1; i++) {
         for (array_size_t j = 0; j < size - 1; j++) {
             if (comparator(array[j], array[j + 1]) > 0) {
@@ -72,6 +75,9 @@ void bubble(strings_array_t array, array_size_t size, comparator_func_t comparat
 }
 
 void insertion(strings_array_t array, array_size_t size, comparator_func_t comparator) {
+    if(size <= 1)
+        return;
+
     for (array_size_t i = 1; i < size; i++) {
         for (array_size_t j = i; j > 0; j--) {
             if (comparator(array[j - 1], array[j]) > 0) {
@@ -82,6 +88,9 @@ void insertion(strings_array_t array, array_size_t size, comparator_func_t compa
 }
 
 void merge(strings_array_t array, array_size_t size, comparator_func_t comparator) {
+    if(size <= 1)
+        return;
+
     char **tmp_array = (char **) malloc(sizeof(char *) * size);
 
     for (array_size_t i = 1; i < size; i *= 2) {
@@ -151,6 +160,9 @@ void quick(strings_array_t array, array_size_t size, comparator_func_t comparato
 }
 
 void radix(strings_array_t array, array_size_t size, comparator_func_t comparator) {
+    if(size <= 1)
+        return;
+
     query alphabet[256];
     size_t max_string_size = 0;
     for (unsigned i = 0; i < 256; i++) {

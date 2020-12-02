@@ -22,13 +22,12 @@ void free_strings_array(strings_array_t strings_array, size_t size) {
     strings_array = NULL;
 }
 
-size_t get_strings_count(char *arg) {
+int get_strings_count(char *arg, size_t *strings_count) {
     char *pEnd;
-    size_t strings_count = strtoull(arg, &pEnd, 10);
+    *strings_count = strtoull(arg, &pEnd, 10);
 
-    if (*pEnd != '\0') strings_count = 0;
-
-    return strings_count;
+    if (*pEnd != '\0') return -1;
+    else return 0;
 }
 
 sorting_algorithm_t get_sorting_algorithm(char *arg) {
@@ -69,16 +68,24 @@ int get_strings_from_file(FILE* file, size_t max_string_length, size_t strings_c
 }
 
 int put_strings_in_file(FILE* file, size_t strings_count, strings_array_t strings_array) {
-    for(size_t i = 0; i < strings_count; i++) {
-        if(fputs(strings_array[i], file) == EOF) {
-            error("Error with fputs() in output file\n");
-            return -1;
-        }
-        if(strcspn(strings_array[i], "\n") == strlen(strings_array[i])) {
-            if(fputs("\n", file) == EOF) {
+    if(strings_count > 0) {
+        for(size_t i = 0; i < strings_count; i++) {
+            if(fputs(strings_array[i], file) == EOF) {
                 error("Error with fputs() in output file\n");
                 return -1;
             }
+            if(strcspn(strings_array[i], "\n") == strlen(strings_array[i])) {
+                if(fputs("\n", file) == EOF) {
+                    error("Error with fputs() in output file\n");
+                    return -1;
+                }
+            }
+        }
+    }
+    else {
+        if(fputs("\n", file) == EOF) {
+            error("Error with fputs() in output file\n");
+            return -1;
         }
     }
 
@@ -92,9 +99,9 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    size_t strings_count = get_strings_count(argv[1]);
-    if (strings_count == 0) {
-        error("Strings count must be > 0 unsigned integer\n");
+    size_t strings_count;
+    if (get_strings_count(argv[1], &strings_count) != 0) {
+        error("Strings count must be >= 0 unsigned integer\n");
         return -1;
     }
 
